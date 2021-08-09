@@ -17,12 +17,14 @@
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.0.4</Version>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <PackageReleaseNotes>Updated component to use .NET Standzard 2.1.
+    <Version>1.0.5</Version>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <PackageReleaseNotes>Update all NuGet packages to latest versions.
+Updated component to use .NET Standzard 2.1.
 Updated Microsoft.IdentityModel.JasonWebTokens component to 6.9.0.
 Updated Builder to accept PEM or XML Key format.</PackageReleaseNotes>
     <RootNamespace>com.tmobile.oss.security.taap.poptoken.builder</RootNamespace>
+    <FileVersion>1.0.5.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

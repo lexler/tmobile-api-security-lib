@@ -61,7 +61,10 @@ namespace com.tmobile.oss.security.taap.jwe
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var json = await httpResponseMessage.Content.ReadAsStringAsync();
-                var jwks = JsonSerializer.Deserialize<Jwks>(json);
+                var jwks = JsonSerializer.Deserialize<Jwks>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
                 jsonWebKeyList.AddRange(jwks.Keys);
             }
 

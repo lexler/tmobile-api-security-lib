@@ -10,7 +10,8 @@
     <Product>JSON Web Encryption (JWE) Builder</Product>
     <Description>This component will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
     <Copyright>© 2020 T-Mobile</Copyright>
-    <PackageReleaseNotes>JWE Builder</PackageReleaseNotes>
+    <PackageReleaseNotes>Update all NuGet packages to latest versions.
+Updated component to use .NET Standzard 2.1.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>

@@ -15,12 +15,12 @@
  */
 
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace com.tmobile.oss.security.taap.jwe
 {
@@ -61,7 +61,7 @@ namespace com.tmobile.oss.security.taap.jwe
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var json = await httpResponseMessage.Content.ReadAsStringAsync();
-                var jwks = JsonConvert.DeserializeObject<Jwks>(json);
+                var jwks = JsonSerializer.Deserialize<Jwks>(json);
                 jsonWebKeyList.AddRange(jwks.Keys);
             }
 

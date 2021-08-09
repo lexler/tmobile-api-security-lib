@@ -25,6 +25,7 @@ Updated Microsoft.IdentityModel.JasonWebTokens component to 6.9.0.
 Updated Builder to accept PEM or XML Key format.</PackageReleaseNotes>
     <RootNamespace>com.tmobile.oss.security.taap.poptoken.builder</RootNamespace>
     <FileVersion>1.0.5.0</FileVersion>
+    <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

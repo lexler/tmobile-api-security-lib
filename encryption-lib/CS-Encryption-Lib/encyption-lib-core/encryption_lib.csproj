@@ -8,7 +8,7 @@
     <Authors>Carl Prothman</Authors>
     <Company>T-Mobile</Company>
     <Product>JSON Web Encryption (JWE) Builder</Product>
-    <Description>This component will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
+    <Description>This component is for field level encryption. It will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
     <Copyright>© 2020 T-Mobile</Copyright>
     <PackageReleaseNotes>Update all NuGet packages to latest versions.
 Updated component to use .NET Standzard 2.1</PackageReleaseNotes>

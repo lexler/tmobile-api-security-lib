@@ -14,7 +14,7 @@ namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
         public async Task GetJsonWebKeyListAsync()
         {
             // To simulate an Jwks server response, return test data from local file
-            var jwksFile = AppContext.BaseDirectory + @"TestData\JwksRSAPublic.json";
+            var jwksFile = AppContext.BaseDirectory + @"TestData\JwksAllPublic.json";
             var jwksJson = System.IO.File.ReadAllText(jwksFile);
             await Response.WriteAsync(jwksJson);
         }

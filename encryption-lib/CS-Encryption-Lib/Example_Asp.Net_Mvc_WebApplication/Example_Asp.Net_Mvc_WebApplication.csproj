@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="TestData\AllPrivate.json" />
     <Content Remove="TestData\ECPrivate.json" />
+    <Content Remove="TestData\JwksAllPublic.json" />
     <Content Remove="TestData\JwksECPublic.json" />
     <Content Remove="TestData\JwksOctPublic.json" />
     <Content Remove="TestData\JwksRSAPublic.json" />
@@ -17,7 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestData\AllPrivate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\ECPrivate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\JwksAllPublic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestData\JwksECPublic.json">

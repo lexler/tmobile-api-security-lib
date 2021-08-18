@@ -79,11 +79,11 @@ namespace Example_Asp.Net_Mvc_WebApplication
             {
                 //var jwksService = serviceProvider.GetService<JwksService>();  // No KeyVault, just JwksService
                 var jwksService = serviceProvider.GetService<OAuth2JwksService>();  // KeyVault JwksService (with option to use oAuth2 / PopToken)
-                var privateJsonWebKeyList = new List<JsonWebKey>();
 
-                var privateRsaJson = File.ReadAllText(@"TestData\RsaPrivate.json");
-                var privateRsaJsonWebKey = JsonConvert.DeserializeObject<JsonWebKey>(privateRsaJson);
-                privateJsonWebKeyList.Add(privateRsaJsonWebKey);
+                var privateJwksJson = File.ReadAllText(@"TestData\AllPrivate.json");
+                var privateJwks = JsonConvert.DeserializeObject<Jwks>(privateJwksJson);
+                var privateJsonWebKeyList = new List<JsonWebKey>();
+                privateJsonWebKeyList.AddRange(privateJwks.Keys);
 
                 return new KeyResolver(privateJsonWebKeyList, jwksService, encryptionOptions.CacheDurationSeconds);
             });

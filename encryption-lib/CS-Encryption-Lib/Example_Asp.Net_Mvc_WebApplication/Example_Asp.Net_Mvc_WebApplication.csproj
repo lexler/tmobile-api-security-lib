@@ -11,6 +11,7 @@
     <Content Remove="TestData\JwksECPublic.json" />
     <Content Remove="TestData\JwksOctPublic.json" />
     <Content Remove="TestData\JwksRSAPublic.json" />
+    <Content Remove="TestData\oAuth2TokenResponse.json" />
     <Content Remove="TestData\OctPrivate.json" />
     <Content Remove="TestData\RSAPrivate.json" />
   </ItemGroup>
@@ -27,6 +28,9 @@
     </None>
     <None Include="TestData\JwksRSAPublic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\oAuth2TokenResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\OctPrivate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

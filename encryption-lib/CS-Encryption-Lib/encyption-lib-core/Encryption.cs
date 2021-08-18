@@ -30,8 +30,8 @@ namespace com.tmobile.oss.security.taap.jwe
     /// </summary>
     public class Encryption : IEncryption
     {
-        IKeyResolver keyResolver;
-        ILogger logger;
+        private readonly IKeyResolver keyResolver;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Default constructor
@@ -175,7 +175,7 @@ namespace com.tmobile.oss.security.taap.jwe
                 var requestedprivateJsonWebKey = default(JsonWebKey);
                 try
                 {
-                    cipher = cipher.Substring(Constants.CIPHER_HEADER.Length);
+                    cipher = cipher[Constants.CIPHER_HEADER.Length..];
                     var cipherArray = cipher.Split(new char[] { '.' });
                     var json = Encoding.UTF8.GetString(Jose.Base64Url.Decode(cipherArray[0]));
                     requestedprivateJsonWebKey = new JsonWebKey(json);

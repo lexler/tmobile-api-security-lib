@@ -31,11 +31,11 @@ namespace com.tmobile.oss.security.taap.jwe
 	{
 		private static List<JsonWebKey> PublicJsonWebKeyList;
 		private static List<JsonWebKey> PrivateJsonWebKeyList;
-		private static bool IsCacheExpired;
+		private static int IsCacheExpired;
 		private static int JwksServiceCallCount;
 		private static JwksService JwksService;
 
-		private Timer timer;
+		private readonly Timer timer;
 		private bool isDisposed;
 
 		/// <summary>
@@ -45,9 +45,9 @@ namespace com.tmobile.oss.security.taap.jwe
 		{
 			PublicJsonWebKeyList = new List<JsonWebKey>();
 			PrivateJsonWebKeyList = new List<JsonWebKey>();
-			IsCacheExpired = true;
+			IsCacheExpired = 1;
 
-			JwksService = default(JwksService);
+			JwksService = default;
 			JwksServiceCallCount = 0;
 		}
 
@@ -62,13 +62,19 @@ namespace com.tmobile.oss.security.taap.jwe
 			this.timer.Enabled = false;
 		}
 
+		/// <summary>
+		/// Custom Constructor
+		/// </summary>
+		/// <param name="privateJsonWebKeyList">Private JsonWebKey List</param>
+		/// <param name="jwksService">Jwks Service</param>
+		/// <param name="cacheDurationSeconds"></param>
 		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, JwksService jwksService, long cacheDurationSeconds) : this()
 		{
 			PrivateJsonWebKeyList = privateJsonWebKeyList;
 			JwksService = jwksService;
 
 			this.timer.Interval = cacheDurationSeconds * 1000;
-			IsCacheExpired = true;
+			IsCacheExpired = 1;
 		}
 
 		/// <summary>
@@ -120,18 +126,16 @@ namespace com.tmobile.oss.security.taap.jwe
 			var publicJsonWebKeyList = new List<JsonWebKey>();
 			var jsonWebKey = default(JsonWebKey);
 
-			if (IsCacheExpired)
+			if (GetIsCacheExpired() == 1)
 			{
-				// Only allow one thread at a time to call the JWKS service
 				if (Interlocked.Increment(ref JwksServiceCallCount) == 1)
 				{
 					try
 					{
-						// Public RSA key
 						publicJsonWebKeyList = await JwksService.GetJsonWebKeyListAsync();
 						this.SetPublicJsonWebKeyList(publicJsonWebKeyList);
 
-						IsCacheExpired = false;
+						Interlocked.Exchange(ref IsCacheExpired, 0);
 						this.timer.Enabled = true;
 					}
 					finally
@@ -176,7 +180,7 @@ namespace com.tmobile.oss.security.taap.jwe
 		/// <param name="e">Elapsed Event Args</param>
 		private void OnTimedEvent(Object source, ElapsedEventArgs e)
 		{
-			IsCacheExpired = true;
+			SetIsCacheExpired(1);
 			this.timer.Enabled = false;
 		}
 
@@ -203,6 +207,26 @@ namespace com.tmobile.oss.security.taap.jwe
 
 				this.isDisposed = true;
 			}
+		}
+
+		/// <summary>
+		/// GetIsCacheExpired
+		/// </summary>
+		/// <returns></returns>
+		private int GetIsCacheExpired()
+		{
+			int localIsCacheExpired = 0;
+			Interlocked.Exchange(ref localIsCacheExpired, IsCacheExpired);
+			return localIsCacheExpired;
+		}
+
+		/// <summary>
+		/// SetIsCacheExpired
+		/// </summary>
+		/// <param name="localIsCacheExpired"></param>
+		private void SetIsCacheExpired(int localIsCacheExpired)
+		{
+			Interlocked.Exchange(ref IsCacheExpired, localIsCacheExpired);
 		}
 	}
 }

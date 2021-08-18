@@ -179,7 +179,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 													// Actual Kid == 1
 
 			// Act
-			string actualValue = await privateEncryption.DecryptAsync(cipherData);
+			await privateEncryption.DecryptAsync(cipherData);
 
 			// Assert
 			// EncryptionException: "Decryption key not found. ID: '11'."

@@ -146,7 +146,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 				this.cacheDurationSeconds);
 
 			// Act
-			var jsonWebKey = await keyResolver.GetEncryptionKeyAsync();
+			await keyResolver.GetEncryptionKeyAsync();
 
 			// Assert
 			// EncryptionException: "Unable to retrieve public EC or RSA key from JWK store.")]

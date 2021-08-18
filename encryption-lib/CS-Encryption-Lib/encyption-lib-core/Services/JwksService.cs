@@ -25,12 +25,12 @@ using System.Text.Json;
 namespace com.tmobile.oss.security.taap.jwe
 {
     /// <summary>
-    /// Jwks Service
+    /// Jwks Service only.  No OAuth2, No Poptoken
     /// </summary>
     public class JwksService : IJwksService
     {
-        private readonly HttpClient httpClient;
-        private readonly Uri jwkUrl;
+        protected readonly HttpClient httpClient;
+        protected readonly Uri jwkUrl;
 
         /// <summary>
         /// Custom constructor
@@ -45,7 +45,7 @@ namespace com.tmobile.oss.security.taap.jwe
             httpClient.Timeout = TimeSpan.FromSeconds(30);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
-            httpClient.BaseAddress = new Uri($"{this.jwkUrl.Scheme}://{this.jwkUrl.Host}:{this.jwkUrl.Port}");
+            httpClient.BaseAddress = new Uri(this.jwkUrl.GetLeftPart(UriPartial.Authority));
         }
 
         /// <summary>

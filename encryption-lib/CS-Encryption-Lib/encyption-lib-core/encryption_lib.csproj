@@ -11,7 +11,7 @@
     <Description>This component will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
     <Copyright>© 2020 T-Mobile</Copyright>
     <PackageReleaseNotes>Update all NuGet packages to latest versions.
-Updated component to use .NET Standzard 2.1.</PackageReleaseNotes>
+Updated component to use .NET Standzard 2.1</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>
@@ -43,13 +43,14 @@ Updated component to use .NET Standzard 2.1.</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.4" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="jose-jwt" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -43,7 +43,7 @@ Updated component to use .NET Standzard 2.1</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.4" />
+    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.5" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

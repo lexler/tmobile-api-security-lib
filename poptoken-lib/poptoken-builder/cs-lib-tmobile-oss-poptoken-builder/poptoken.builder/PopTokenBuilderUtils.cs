@@ -49,13 +49,18 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
             if (rsaKeyPKCS8PemOrXml.Contains("BEGIN PUBLIC KEY"))
             {
                 var pkcs8PrivateKeyArray = rsaKeyPKCS8PemOrXml.Split(Environment.NewLine);
-                var pkcs8PrivateKeyBytes = Convert.FromBase64String(pkcs8PrivateKeyArray[1]);
-                rsa.ImportSubjectPublicKeyInfo(pkcs8PrivateKeyBytes, out _);
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN PUBLIC KEY-----", "")
+                                                     .Replace("-----END PUBLIC KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var pkcs8PublicKeyBytes = Convert.FromBase64String(certificate);
+                rsa.ImportSubjectPublicKeyInfo(pkcs8PublicKeyBytes, out _);
             }
             else if (rsaKeyPKCS8PemOrXml.Contains("BEGIN PRIVATE KEY"))
             {
-                var pkcs8PrivateKeyArray = rsaKeyPKCS8PemOrXml.Split(Environment.NewLine);
-                var pkcs8PrivateKeyBytes = Convert.FromBase64String(pkcs8PrivateKeyArray[1]);
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN PRIVATE KEY-----", "")
+                                                     .Replace("-----END PRIVATE KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var pkcs8PrivateKeyBytes = Convert.FromBase64String(certificate);
                 rsa.ImportPkcs8PrivateKey(pkcs8PrivateKeyBytes, out _);
             }
             else if (rsaKeyPKCS8PemOrXml.Contains("<") &&

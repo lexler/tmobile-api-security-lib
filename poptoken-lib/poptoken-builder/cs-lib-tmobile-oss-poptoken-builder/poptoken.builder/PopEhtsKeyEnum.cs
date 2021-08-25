@@ -23,7 +23,7 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         [Description("Content-Type")]
         ContentType,
 
-        [Description("application/json; charset=utf-8")]
+        [Description("application/json")]
         ApplicationJson,
 
         [Description("Cache-Control")]

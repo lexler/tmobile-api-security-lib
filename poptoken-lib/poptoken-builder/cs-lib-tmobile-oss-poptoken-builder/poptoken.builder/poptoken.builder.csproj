@@ -17,14 +17,15 @@
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.0.6</Version>
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <Version>1.0.7</Version>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
     <PackageReleaseNotes>Update all NuGet packages to latest versions.
 Updated component to use .NET Standzard 2.1.
 Updated Builder to accept PEM or XML Key format.
-Fix PEM file format issue.</PackageReleaseNotes>
+Fix PEM file format issue.
+Use "application/json", not "application/json; charset=utf-8"</PackageReleaseNotes>
     <RootNamespace>com.tmobile.oss.security.taap.poptoken.builder</RootNamespace>
-    <FileVersion>1.0.6.0</FileVersion>
+    <FileVersion>1.0.7.0</FileVersion>
     <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 

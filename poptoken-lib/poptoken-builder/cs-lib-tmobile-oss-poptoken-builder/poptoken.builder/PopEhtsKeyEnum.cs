@@ -26,6 +26,9 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         [Description("application/json")]
         ApplicationJson,
 
+        [Description("application/json; charset=utf-8")]
+        ApplicationJsonCharsetUtf8,
+
         [Description("Cache-Control")]
         CacheControl,
 

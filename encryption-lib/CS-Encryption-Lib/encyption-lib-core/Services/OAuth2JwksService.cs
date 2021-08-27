@@ -147,11 +147,11 @@ namespace com.tmobile.oss.security.taap.jwe
         {
             var dictionary = new Dictionary<string, string>
             {
-                { PopEhtsKeyEnum.ContentType.GetDescription(), PopEhtsKeyEnum.ApplicationJson.GetDescription() },
-                { PopEhtsKeyEnum.CacheControl.GetDescription(), PopEhtsKeyEnum.NoCache.GetDescription() },
-                { PopEhtsKeyEnum.Authorization.GetDescription(), authorization },
+                { PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Post.GetDescription() },
                 { PopEhtsKeyEnum.Uri.GetDescription(), _oAuthUri.PathAndQuery },
-                { PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Post.GetDescription() }
+                { PopEhtsKeyEnum.CacheControl.GetDescription(), PopEhtsKeyEnum.NoCache.GetDescription() },
+                { PopEhtsKeyEnum.ContentType.GetDescription(), PopEhtsKeyEnum.ApplicationJsonCharsetUtf8.GetDescription() },
+                { PopEhtsKeyEnum.Authorization.GetDescription(), authorization }
             };
             var hashMapKeyValuePair = dictionary.Set();
 

@@ -14,7 +14,9 @@
 Updated component to use .NET Standzard 2.1
 Add IOAuth2JwksService interface
 Remove "poptoken" key word in example (not needed)
-Use IJwksService in KeyResolver constructor</PackageReleaseNotes>
+Use IJwksService in KeyResolver constructor
+Update POPToken Reference
+Use ApplicationJsonCharsetUtf8 const when creating pop token</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>
@@ -22,10 +24,10 @@ Use IJwksService in KeyResolver constructor</PackageReleaseNotes>
     <NeutralLanguage />
     <PackageTags>JWE, RSA, RSA_OAEP_256, A256GCM</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
-    <FileVersion>1.0.6.0</FileVersion>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
     <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -46,14 +48,14 @@ Use IJwksService in KeyResolver constructor</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.5" />
+    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.8" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="jose-jwt" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,12 +31,13 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="com.tmobile.oss.security.taap.jwe.KeyVaultJwksService">
+  <Class Name="com.tmobile.oss.security.taap.jwe.OAuth2JwksService">
     <Position X="10.25" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAwAAEEABAAMAAEAAAAACAAAAAAAAAAAA=</HashCode>
-      <FileName>Services\KeyVaultJwksService.cs</FileName>
+      <FileName>Services\OAuth2JwksService.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="com.tmobile.oss.security.taap.jwe.EncryptionException">
     <Position X="0.75" Y="3.25" Width="2.75" />

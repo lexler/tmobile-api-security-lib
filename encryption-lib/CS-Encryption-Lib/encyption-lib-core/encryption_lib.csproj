@@ -48,7 +48,7 @@ Use ApplicationJsonCharsetUtf8 const when creating pop token</PackageReleaseNote
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.8" />
+    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.9" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

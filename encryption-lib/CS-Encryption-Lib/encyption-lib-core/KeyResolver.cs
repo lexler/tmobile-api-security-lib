@@ -33,7 +33,7 @@ namespace com.tmobile.oss.security.taap.jwe
 		private static List<JsonWebKey> PrivateJsonWebKeyList;
 		private static int IsCacheExpired;
 		private static int JwksServiceCallCount;
-		private static JwksService JwksService;
+		private static IJwksService JwksService;
 
 		private readonly Timer timer;
 		private bool isDisposed;
@@ -68,7 +68,7 @@ namespace com.tmobile.oss.security.taap.jwe
 		/// <param name="privateJsonWebKeyList">Private JsonWebKey List</param>
 		/// <param name="jwksService">Jwks Service</param>
 		/// <param name="cacheDurationSeconds"></param>
-		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, JwksService jwksService, long cacheDurationSeconds) : this()
+		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, IJwksService jwksService, long cacheDurationSeconds) : this()
 		{
 			PrivateJsonWebKeyList = privateJsonWebKeyList;
 			JwksService = jwksService;

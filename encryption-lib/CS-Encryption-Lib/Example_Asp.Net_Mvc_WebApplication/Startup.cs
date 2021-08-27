@@ -60,7 +60,9 @@ namespace Example_Asp.Net_Mvc_WebApplication
             {
                 return new PopTokenBuilder(encryptionOptions.PopTokenAudience, encryptionOptions.PopTokenIssuer);
             });
-            services.AddSingleton(serviceProvider =>
+
+            // OAuth2JwksService
+            services.AddSingleton<IOAuth2JwksService>(serviceProvider =>
             {
                 var popTokenBuilder = (PopTokenBuilder)serviceProvider.GetService<IPopTokenBuilder>();
                 var privateKeyXml = encryptionOptions.PopTokenPrivateKeyXml;
@@ -75,10 +77,10 @@ namespace Example_Asp.Net_Mvc_WebApplication
             });
 
             // KeyResolver
-            services.AddSingleton(serviceProvider =>
+            services.AddSingleton<IKeyResolver>(serviceProvider =>
             {
                 //var jwksService = serviceProvider.GetService<JwksService>();  // No KeyVault, just JwksService
-                var jwksService = serviceProvider.GetService<OAuth2JwksService>();  // KeyVault JwksService (with option to use oAuth2 / PopToken)
+                var jwksService = serviceProvider.GetService<IOAuth2JwksService>();  // KeyVault JwksService (with option to use oAuth2 / PopToken)
 
                 var privateJwksJson = File.ReadAllText(@"TestData\AllPrivate.json");
                 var privateJwks = JsonConvert.DeserializeObject<Jwks>(privateJwksJson);
@@ -89,10 +91,10 @@ namespace Example_Asp.Net_Mvc_WebApplication
             });
 
             // Encryption
-            services.AddTransient(serviceProvider =>
+            services.AddTransient<IEncryption>(serviceProvider =>
             {
-                var keyResolver = serviceProvider.GetService<KeyResolver>();
-                var encryptionLogger = serviceProvider.GetService<ILogger<Encryption>>();
+                var keyResolver = serviceProvider.GetService<IKeyResolver>();
+                var encryptionLogger = serviceProvider.GetService<ILogger<IEncryption>>();
                 return new Encryption(keyResolver, encryptionLogger);
             });
 

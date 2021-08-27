@@ -29,7 +29,7 @@ namespace com.tmobile.oss.security.taap.jwe
     /// <summary>
     /// Jwks Service with OAuth2 and PopToken (optional)
     /// </summary>
-    public class OAuth2JwksService : JwksService
+    public class OAuth2JwksService : JwksService, IOAuth2JwksService
     {
         private readonly HttpClient _oAuthHttpClient;
         private readonly string _oAuthClientKey;
@@ -90,7 +90,7 @@ namespace com.tmobile.oss.security.taap.jwe
         }
 
         /// <summary>
-        /// Ge tJsonWebKey List Aync
+        /// Get JsonWebKey List Aync using access token
         /// </summary>
         /// <param name="accessToken"></param>
         /// <returns></returns>
@@ -125,7 +125,7 @@ namespace com.tmobile.oss.security.taap.jwe
 
             if (_popTokenBuilder != null)
             {
-                string popToken = $"poptoken {CreatePopToken(authorization)}";
+                string popToken = CreatePopToken(authorization);
                 httpRequestMessage.Headers.Add("X-Authorization", popToken);
             }
 

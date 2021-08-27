@@ -10,9 +10,9 @@ namespace Example_Asp.Net_Mvc_WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly Encryption encryption;
+        private readonly IEncryption encryption;
 
-        public HomeController(Encryption encryption)
+        public HomeController(IEncryption encryption)
         {
             this.encryption = encryption;
         }

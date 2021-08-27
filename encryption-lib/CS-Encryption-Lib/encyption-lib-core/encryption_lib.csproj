@@ -11,12 +11,13 @@
     <Description>This component is for field level encryption. It will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
     <Copyright>© 2020 T-Mobile</Copyright>
     <PackageReleaseNotes>Update all NuGet packages to latest versions.
-Updated component to use .NET Standzard 2.1
+Updated component to use .NET Standard 2.1
 Add IOAuth2JwksService interface
 Remove "poptoken" key word in example (not needed)
 Use IJwksService in KeyResolver constructor
 Update POPToken Reference
-Use ApplicationJsonCharsetUtf8 const when creating pop token</PackageReleaseNotes>
+Use ApplicationJsonCharsetUtf8 const when creating pop token
+Update POP Token reference</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>
@@ -24,10 +25,10 @@ Use ApplicationJsonCharsetUtf8 const when creating pop token</PackageReleaseNote
     <NeutralLanguage />
     <PackageTags>JWE, RSA, RSA_OAEP_256, A256GCM</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
     <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
 {
-    [Route("api/oauth2")]
+    [Route("oauth2")]
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
@@ -21,11 +21,11 @@ namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
 
-            var popTokenAuthorization = HttpContext.Request.Headers["X-Authorization"];  // Must pass in PopToken
-            if (popTokenAuthorization.Count <= 0 || popTokenAuthorization[0].Length == 0)
-            {
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            }
+            //var popTokenAuthorization = HttpContext.Request.Headers["X-Authorization"];  // Must pass in PopToken
+            //if (popTokenAuthorization.Count <= 0 || popTokenAuthorization[0].Length == 0)
+            //{
+            //    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            //}
 
             // Validate ClientKey / ClientSecret
             // Todo...

@@ -14,12 +14,6 @@
       "e": "AQAB",
       "alg": "RS256",
       "kid": "3072F4C6-193D-481B-BDD2-0F09F5A7DDFB"
-    },
-    {
-      "kty": "OCT",
-      "alg": "A128KW",
-      "k": "GawgguFyGrWKav7AX4VKUg",
-      "kid": "40F36B31-44A5-44B4-AC2F-676D5C8CB4C2"
     }
   ]
 }

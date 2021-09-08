@@ -104,7 +104,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 		public async Task GetJsonWebKeyListAsync_PublicRSA_Success()
 		{
 			// Arrange
-			var jwksService = new OAuth2JwksService(_oAuthHttpClient, _oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicRsaHttpClient, _jwkUrl);
+			var jwksService = new OAuth2JwksService(_oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicRsaHttpClient, _jwkUrl);
 
 			// Act
 			var jwksList = await jwksService.GetJsonWebKeyListAsync();
@@ -127,7 +127,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 		public async Task GetJsonWebKeyListAsync_PublicEC_Success()
 		{
 			// Arrange
-			var jwksService = new OAuth2JwksService(_oAuthHttpClient, _oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicEcHttpClient, _jwkUrl);
+			var jwksService = new OAuth2JwksService(_oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicEcHttpClient, _jwkUrl);
 
 			// Act
 			var jwksList = await jwksService.GetJsonWebKeyListAsync();
@@ -152,7 +152,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 		public async Task GetJsonWebKeyListAsync_PublicRSA_WithPopToken_Success()
 		{
 			// Arrange
-			var jwksService = new OAuth2JwksService(_popTokenBuilder, _privateRsaKeyXml, _oAuthHttpClient, _oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicRsaHttpClient, _jwkUrl);
+			var jwksService = new OAuth2JwksService(_popTokenBuilder, _privateRsaKeyXml, _oAuthClientKey, _oAuthClientSecret, _oAuthUrl, _publicRsaHttpClient, _jwkUrl);
 
 			// Act
 			var jwksList = await jwksService.GetJsonWebKeyListAsync();

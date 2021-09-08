@@ -21,11 +21,6 @@
       "qi": "GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU",
       "alg": "RS256",
       "kid": "3072F4C6-193D-481B-BDD2-0F09F5A7DDFB"
-    },
-    {
-      "kty": "OCT",
-      "k": "AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow",
-      "kid": "40F36B31-44A5-44B4-AC2F-676D5C8CB4C2"
     }
   ]
 }

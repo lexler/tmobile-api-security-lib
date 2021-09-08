@@ -31,26 +31,24 @@ namespace com.tmobile.oss.security.taap.jwe
     /// </summary>
     public class OAuth2JwksService : JwksService, IOAuth2JwksService
     {
-        private readonly HttpClient _oAuthHttpClient;
         private readonly string _oAuthClientKey;
         private readonly string _oAuthClientSecret;
         private readonly Uri _oAuthUri;
+
         private readonly PopTokenBuilder _popTokenBuilder;
         private readonly string _privateKeyXml;
 
         /// <summary>
         /// Custom Constructor - oAuthClient option 
         /// </summary>
-        /// <param name="oAuthHttpClient"></param>
         /// <param name="oAuthClientKey"></param>
         /// <param name="oAuthClientSecret"></param>
         /// <param name="oAuthUrl"></param>
         /// <param name="keyVaultJwkHttpClient"></param>
         /// <param name="keyVaultJwkUrl"></param>
-        public OAuth2JwksService(HttpClient oAuthHttpClient, string oAuthClientKey, string oAuthClientSecret, string oAuthUrl, HttpClient keyVaultJwkHttpClient, string keyVaultJwkUrl)
-            : base(keyVaultJwkHttpClient, keyVaultJwkUrl)
+        public OAuth2JwksService(string oAuthClientKey, string oAuthClientSecret, string oAuthUrl, HttpClient jwkHttpClient, string keyVaultJwkUrl)
+            : base(jwkHttpClient, keyVaultJwkUrl)
         {
-            _oAuthHttpClient = oAuthHttpClient;
             _oAuthClientKey = oAuthClientKey;
             _oAuthClientSecret = oAuthClientSecret;
             _oAuthUri = new Uri(oAuthUrl);
@@ -65,13 +63,12 @@ namespace com.tmobile.oss.security.taap.jwe
         /// <param name="oAuthUrl"></param>
         /// <param name="keyVaultJwkHttpClient"></param>
         /// <param name="keyVaultJwkUrl"></param>
-        public OAuth2JwksService(PopTokenBuilder popTokenBuilder, string privateKeyXml, HttpClient oAuthHttpClient, string oAuthClientKey, string oAuthClientSecret, string oAuthUrl, HttpClient keyVaultJwkHttpClient, string keyVaultJwkUrl)
-            : base(keyVaultJwkHttpClient, keyVaultJwkUrl)
+        public OAuth2JwksService(PopTokenBuilder popTokenBuilder, string privateKeyXml, string oAuthClientKey, string oAuthClientSecret, string oAuthUrl, HttpClient jwkHttpClient, string keyVaultJwkUrl)
+            : base(jwkHttpClient, keyVaultJwkUrl)
         {
             _popTokenBuilder = popTokenBuilder;
             _privateKeyXml = privateKeyXml;
 
-            _oAuthHttpClient = oAuthHttpClient;
             _oAuthClientKey = oAuthClientKey;
             _oAuthClientSecret = oAuthClientSecret;
             _oAuthUri = new Uri(oAuthUrl);
@@ -90,6 +87,34 @@ namespace com.tmobile.oss.security.taap.jwe
         }
 
         /// <summary>
+        /// Get AccessToken Async
+        /// </summary>
+        /// <returns></returns>
+        private async Task<AuthTokenResponse> GetAccessTokenAsync()
+        {
+            var userIdPassword = string.Concat(_oAuthClientKey, ":", _oAuthClientSecret);
+            var userIdPasswordBytes = Encoding.UTF8.GetBytes(userIdPassword);
+            var authorization = Convert.ToBase64String(userIdPasswordBytes);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, _oAuthUri.PathAndQuery);
+            httpRequestMessage.Headers.Add(PopEhtsKeyEnum.Authorization.GetDescription(), $"Basic {authorization}");
+
+            if (_popTokenBuilder != null)
+            {
+                string popToken = CreatePopToken(authorization);
+                httpRequestMessage.Headers.Add("X-Authorization", popToken);
+            }
+
+            var httpResponseMessage = await _jwksServiceHttpClient.SendAsync(httpRequestMessage);
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            var json = await httpResponseMessage.Content.ReadAsStringAsync();
+            var authTokenResponse = JsonSerializer.Deserialize<AuthTokenResponse>(json);
+
+            return authTokenResponse;
+        }
+
+        /// <summary>
         /// Get JsonWebKey List Aync using access token
         /// </summary>
         /// <param name="accessToken"></param>
@@ -98,9 +123,10 @@ namespace com.tmobile.oss.security.taap.jwe
         {
             var jsonWebKeyList = new List<JsonWebKey>();
 
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, base.jwkUrl.PathAndQuery);
-            httpRequestMessage.Headers.Add("Authorization", $"Bearer {accessToken}");
-            var httpResponseMessage = await base.httpClient.SendAsync(httpRequestMessage);
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, _jwkUrl.PathAndQuery);
+            httpRequestMessage.Headers.Add(PopEhtsKeyEnum.Authorization.GetDescription(), $"Bearer {accessToken}");
+
+            var httpResponseMessage = await _jwksServiceHttpClient.SendAsync(httpRequestMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var json = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -108,34 +134,6 @@ namespace com.tmobile.oss.security.taap.jwe
             jsonWebKeyList.AddRange(jwks.Keys);
 
             return jsonWebKeyList;
-        }
-
-        /// <summary>
-        /// Get AccessToken Async
-        /// </summary>
-        /// <returns></returns>
-        private async Task<AuthTokenResponse> GetAccessTokenAsync()
-        {
-            var userIdPassword = string.Concat(_oAuthClientKey, ":", _oAuthClientSecret);
-            var userIdPasswordBytes = Encoding.UTF8.GetBytes(userIdPassword);
-            var authorization = $"Basic {Convert.ToBase64String(userIdPasswordBytes)}";
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, _oAuthUri);
-            httpRequestMessage.Headers.Add("Authorization", authorization);
-
-            if (_popTokenBuilder != null)
-            {
-                string popToken = CreatePopToken(authorization);
-                httpRequestMessage.Headers.Add("X-Authorization", popToken);
-            }
-
-            var httpResponseMessage = await _oAuthHttpClient.SendAsync(httpRequestMessage);
-            httpResponseMessage.EnsureSuccessStatusCode();
-
-            var json = await httpResponseMessage.Content.ReadAsStringAsync();
-            var authTokenResponse = JsonSerializer.Deserialize<AuthTokenResponse>(json);
-
-            return authTokenResponse;
         }
 
         /// <summary>
@@ -148,7 +146,7 @@ namespace com.tmobile.oss.security.taap.jwe
             var dictionary = new Dictionary<string, string>
             {
                 { PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Post.GetDescription() },
-                { PopEhtsKeyEnum.Uri.GetDescription(), _oAuthUri.PathAndQuery },
+                { PopEhtsKeyEnum.Uri.GetDescription(), _jwkUrl.PathAndQuery },
                 { PopEhtsKeyEnum.CacheControl.GetDescription(), PopEhtsKeyEnum.NoCache.GetDescription() },
                 { PopEhtsKeyEnum.ContentType.GetDescription(), PopEhtsKeyEnum.ApplicationJsonCharsetUtf8.GetDescription() },
                 { PopEhtsKeyEnum.Authorization.GetDescription(), authorization }

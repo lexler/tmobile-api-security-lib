@@ -18,9 +18,8 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace com.tmobile.oss.security.taap.jwe
 {
@@ -29,23 +28,19 @@ namespace com.tmobile.oss.security.taap.jwe
     /// </summary>
     public class JwksService : IJwksService
     {
-        protected readonly HttpClient httpClient;
-        protected readonly Uri jwkUrl;
+        protected readonly HttpClient _jwksServiceHttpClient;
+        protected readonly Uri _jwkUrl;
 
         /// <summary>
         /// Custom constructor
         /// </summary>
         /// <param name="httpClient">Http Client</param>
         /// <param name="jwkUrl">JWK Server URL</param>
-        public JwksService(HttpClient httpClient, string jwkUrl)
+        public JwksService(HttpClient jwksServiceHttpClient, string jwkUrl)
         {
-            this.jwkUrl = new Uri(jwkUrl);
-
-            this.httpClient = httpClient;
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
-            httpClient.BaseAddress = new Uri(this.jwkUrl.GetLeftPart(UriPartial.Authority));
+            _jwkUrl = new Uri(jwkUrl);
+            _jwksServiceHttpClient = jwksServiceHttpClient;
+            _jwksServiceHttpClient.BaseAddress = new Uri(_jwkUrl.GetLeftPart(System.UriPartial.Authority));
         }
 
         /// <summary>
@@ -56,8 +51,8 @@ namespace com.tmobile.oss.security.taap.jwe
         {
             var jsonWebKeyList = new List<JsonWebKey>();
 
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, this.jwkUrl.PathAndQuery);
-            var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, _jwkUrl.PathAndQuery);
+            var httpResponseMessage = await _jwksServiceHttpClient.SendAsync(httpRequestMessage);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var json = await httpResponseMessage.Content.ReadAsStringAsync();

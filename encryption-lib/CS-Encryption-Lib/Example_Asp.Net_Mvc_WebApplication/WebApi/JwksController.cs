@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
 {
-    [Route("api/jwks")]
+    [Route("jwks")]
     [ApiController]
     public class JwksController : ControllerBase
     {

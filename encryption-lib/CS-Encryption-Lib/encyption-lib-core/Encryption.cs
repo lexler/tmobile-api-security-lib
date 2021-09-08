@@ -98,7 +98,6 @@ namespace com.tmobile.oss.security.taap.jwe
                 }
 
                 logger.LogDebug("Encrypting data with keyid: {0}, type: {1}", publicJsonWebKey.Kid, publicJsonWebKey.Kty);
-
                 return Constants.CIPHER_HEADER + encodedJwe;
             }
             catch (Jose.EncryptionException iaEx)

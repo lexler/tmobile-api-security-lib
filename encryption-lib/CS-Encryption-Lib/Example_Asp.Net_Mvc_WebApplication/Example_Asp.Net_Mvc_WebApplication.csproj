@@ -20,13 +20,13 @@
 
   <ItemGroup>
     <None Include="TestData\AllPrivate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\ECPrivate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestData\JwksAllPublic.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\JwksECPublic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

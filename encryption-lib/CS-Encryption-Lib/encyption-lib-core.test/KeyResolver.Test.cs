@@ -136,7 +136,7 @@ namespace com.tmobile.oss.security.taap.jwe.test
 
 		[TestMethod]
 		[TestCategory("UnitTest")]
-		[ExpectedExceptionMessage(typeof(EncryptionException), "Unable to retrieve public EC or RSA key from JWK store.")]
+		[ExpectedExceptionMessage(typeof(EncryptionException), "Unable to retrieve public EC P-256 key or RSA RS256 key from JWK store.")]
 		public async Task GetEncryptionKeyAsync_PublicRSA_NoKeysFound_Throws()
 		{
 			// Arrange

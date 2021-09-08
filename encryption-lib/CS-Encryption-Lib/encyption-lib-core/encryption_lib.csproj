@@ -19,7 +19,8 @@ Update POPToken Reference
 Use ApplicationJsonCharsetUtf8 const when creating pop token
 Update POP Token reference
 Only get EC keys that support "P-256" or RSA keys that support "RS256" 
-Correct spelling</PackageReleaseNotes>
+Correct spelling
+Don't use "Crv" to restrict EC keys</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>
@@ -27,10 +28,10 @@ Correct spelling</PackageReleaseNotes>
     <NeutralLanguage />
     <PackageTags>JWE, RSA, RSA_OAEP_256, A256GCM, EC,P-256, RS256</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>1.0.10</Version>
+    <Version>1.0.11</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.10.0</AssemblyVersion>
-    <FileVersion>1.0.10.0</FileVersion>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <FileVersion>1.0.11.0</FileVersion>
     <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 

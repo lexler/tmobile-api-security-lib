@@ -149,13 +149,13 @@ namespace com.tmobile.oss.security.taap.jwe
 				publicJsonWebKeyList = this.GetPublicJsonWebKeyList();
 			}
 
-			jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC" && k.Crv == "P-256"); // "P-384" is not supported yet
+			jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
 			if (jsonWebKey == null)
 			{
-				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA" && k.Alg == "RS256");
+				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA");
 				if (jsonWebKey == null)
 				{
-					throw new EncryptionException("Unable to retrieve public EC P-256 key or RSA RS256 key from JWK store.");
+					throw new EncryptionException("Unable to retrieve public EC or RSA key from JWK store.");
 				}
 			}
 

@@ -104,11 +104,11 @@ namespace com.tmobile.oss.security.taap.jwe
             {
                 if (publicJsonWebKey == null)
                 {
-                    logger.LogError(iaEx, "An Encryption Exceptionn occurred.");
+                    logger.LogError(iaEx, "An Encryption Exception occurred.");
                 }
                 else
                 {
-                    logger.LogError(iaEx, "An Encryption Exceptionn occurred. keyid: {0}, type: {1}", publicJsonWebKey.Kid, publicJsonWebKey.Kty);
+                    logger.LogError(iaEx, "An Encryption Exception occurred. keyid: {0}, type: {1}", publicJsonWebKey.Kid, publicJsonWebKey.Kty);
                 }
 
                 throw new EncryptionException("Unable to decrypt data.", iaEx);
@@ -233,11 +233,11 @@ namespace com.tmobile.oss.security.taap.jwe
             {
                 if (privateJsonWebKey == null)
                 {
-                    logger.LogError(iaEx, "An Encryption Exceptionn occurred.");
+                    logger.LogError(iaEx, "An Encryption Exception occurred.");
                 }
                 else
                 {
-                    logger.LogError(iaEx, "An Encryption Exceptionn occurred. keyid: {0}, type: {1}", privateJsonWebKey.Kid, privateJsonWebKey.Kty);
+                    logger.LogError(iaEx, "An Encryption Exception occurred. keyid: {0}, type: {1}", privateJsonWebKey.Kid, privateJsonWebKey.Kty);
                 }
 
                 throw new EncryptionException("Unable to decrypt data.", iaEx);

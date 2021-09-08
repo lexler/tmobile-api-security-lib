@@ -72,7 +72,7 @@ namespace Example_Asp.Net_Mvc_WebApplication
             //    var oAuthClientSecret = encryptionOptions.OAuthClientSecret;
 
             //    return new OAuth2JwksService(popTokenBuilder, privateKeyXml, oAuthClientKey, oAuthClientSecret, oAuthUrl, httpClientFactory.CreateClient(), encryptionOptions.JwksUrl);
-            //});
+            //});I
 
             // KeyResolver
             services.AddSingleton<IKeyResolver>(serviceProvider =>

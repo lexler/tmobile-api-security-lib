@@ -28,6 +28,6 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         DateTime GetExpiration(DateTime issuedAt);
         string GetUniqueIdentifier();
         PopTokenBuilder SetEhtsKeyValueMap(HashSet<KeyValuePair<string, string>> ehtsKeyValueMap);
-        PopTokenBuilder SignWith(string privateKeyXmlRsa);
+        PopTokenBuilder SignWith(string privateKeyXmlRsa, string keyPassword = null);
     }
 }

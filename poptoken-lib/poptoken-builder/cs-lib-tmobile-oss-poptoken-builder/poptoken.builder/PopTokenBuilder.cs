@@ -38,6 +38,7 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         private HashSet<KeyValuePair<string, string>> _ehtsKeyValueMap;
         private string _privateKeyXmlOrPemRsa;
         private RsaSecurityKey _rsaSecurityKey;
+        private string _keyPassword;
 
         /// <summary>
         /// Default Constructor
@@ -95,8 +96,9 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         /// Signs the PoP token using RSA private key in XML or PEM format
         /// </summary>
         /// <param name="privateKeyXmlRsa">The RSA private key in XML or PEM format</param>
+        /// <param name="keyPassword">Password for the Key (optional)</param>
         /// <returns>The PopTokenBuilder</returns>
-        public PopTokenBuilder SignWith(string privateKeyXmlOrPemRsa)
+        public PopTokenBuilder SignWith(string privateKeyXmlOrPemRsa, string keyPassword = null)
         {
             if (string.IsNullOrEmpty(privateKeyXmlOrPemRsa))
             {
@@ -104,6 +106,8 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
             }
 
             _privateKeyXmlOrPemRsa = privateKeyXmlOrPemRsa;
+            _keyPassword = keyPassword;
+
             return this;
         }
 
@@ -152,7 +156,7 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
                     throw new PopTokenBuilderException("The privateKeyXmlRsa should be provided to SignWith the PoP token");
                 }
 
-                _rsaSecurityKey = PopTokenBuilderUtils.CreateRsaSecurityKey(_privateKeyXmlOrPemRsa);
+                _rsaSecurityKey = PopTokenBuilderUtils.CreateRsaSecurityKey(_privateKeyXmlOrPemRsa, _keyPassword);
 
                 var ehts = BuildEhtsString(_ehtsKeyValueMap);
                 var edts = CalculateEdtsSha256Base64Hash(_ehtsKeyValueMap);

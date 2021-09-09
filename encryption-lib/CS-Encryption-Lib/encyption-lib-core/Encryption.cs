@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using Jose;
 using Jose.keys;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -78,8 +79,9 @@ namespace com.tmobile.oss.security.taap.jwe
                 {
                     var xByteArray = Jose.Base64Url.Decode(publicJsonWebKey.X);
                     var yByteArray = Jose.Base64Url.Decode(publicJsonWebKey.Y);
-                    var eccKey = EccKey.New(xByteArray, yByteArray, null, CngKeyUsages.KeyAgreement);
-                    encodedJwe = Jose.JWT.Encode(value, eccKey, Jose.JweAlgorithm.ECDH_ES_A256KW, Jose.JweEncryption.A256GCM, null, extraHeaders, null);
+                    var eccKey = EccKey.New(xByteArray, yByteArray, usage:CngKeyUsages.KeyAgreement);
+                    var recipients = new[] { new JweRecipient(JweAlgorithm.ECDH_ES_A256KW, eccKey)};
+                    encodedJwe = JWE.Encrypt(value, recipients, JweEncryption.A256GCM, null, SerializationMode.Compact, null, extraHeaders);
                 }
                 else if (publicJsonWebKey.Kty == "RSA")
                 {
@@ -90,7 +92,8 @@ namespace com.tmobile.oss.security.taap.jwe
                     };
                     var rsa = RSA.Create();
                     rsa.ImportParameters(keyParams);
-                    encodedJwe = Jose.JWT.Encode(value, rsa, Jose.JweAlgorithm.RSA_OAEP_256, Jose.JweEncryption.A256GCM, null, extraHeaders, null);
+                    var recipients = new[] { new JweRecipient(JweAlgorithm.RSA_OAEP_256, rsa) };
+                    encodedJwe = JWE.Encrypt(value, recipients, JweEncryption.A256GCM, null, SerializationMode.Compact, null, extraHeaders);
                 }
                 else
                 {
@@ -200,7 +203,7 @@ namespace com.tmobile.oss.security.taap.jwe
                     var yByteArray = Jose.Base64Url.Decode(privateJsonWebKey.Y);
                     var dByteArray = Jose.Base64Url.Decode(privateJsonWebKey.D);
                     var privateKey = EccKey.New(xByteArray, yByteArray, dByteArray, CngKeyUsages.KeyAgreement);
-                    value = Jose.JWT.Decode(cipher, privateKey);
+                    value = Jose.JWE.Decrypt(cipher, privateKey, JweAlgorithm.ECDH_ES_A256KW, JweEncryption.A256GCM, null).Plaintext;
                 }
                 else if (privateJsonWebKey.Kty == "RSA")
                 {
@@ -218,7 +221,7 @@ namespace com.tmobile.oss.security.taap.jwe
 
                     var rsa = RSA.Create();
                     rsa.ImportParameters(keyParams);
-                    value = Jose.JWT.Decode(cipher, rsa, Jose.JweAlgorithm.RSA_OAEP_256, Jose.JweEncryption.A256GCM);
+                    value = Jose.JWE.Decrypt(cipher, rsa, JweAlgorithm.RSA_OAEP_256, JweEncryption.A256GCM, null).Plaintext;
                 }
                 else
                 {

@@ -15,5 +15,8 @@
         public string JwksUrl { get; set; }
 
         public int CacheDurationSeconds { get; set; }
+
+        public string KeyPreference { get; set; }
+        
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -88,7 +89,8 @@ namespace Example_Asp.Net_Mvc_WebApplication
                 var privateJsonWebKeyList = new List<JsonWebKey>();
                 privateJsonWebKeyList.AddRange(privateJwks.Keys);
 
-                return new KeyResolver(privateJsonWebKeyList, jwksService, encryptionOptions.CacheDurationSeconds);
+                var keyPreference = (KeyPreference)Enum.Parse(typeof(KeyPreference), encryptionOptions.KeyPreference);
+                return new KeyResolver(privateJsonWebKeyList, jwksService, encryptionOptions.CacheDurationSeconds, keyPreference);
             });
 
             // Encryption

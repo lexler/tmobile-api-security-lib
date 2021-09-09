@@ -36,6 +36,7 @@ namespace com.tmobile.oss.security.taap.jwe
 		private static IJwksService JwksService;
 
 		private readonly Timer timer;
+		private readonly KeyPreference keyPreference;
 		private bool isDisposed;
 
 		/// <summary>
@@ -68,12 +69,13 @@ namespace com.tmobile.oss.security.taap.jwe
 		/// <param name="privateJsonWebKeyList">Private JsonWebKey List</param>
 		/// <param name="jwksService">Jwks Service</param>
 		/// <param name="cacheDurationSeconds"></param>
-		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, IJwksService jwksService, long cacheDurationSeconds) : this()
+		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, IJwksService jwksService, long cacheDurationSeconds, KeyPreference keyPreference = KeyPreference.EC) : this()
 		{
 			PrivateJsonWebKeyList = privateJsonWebKeyList;
 			JwksService = jwksService;
 
 			this.timer.Interval = cacheDurationSeconds * 1000;
+			this.keyPreference = keyPreference;
 			IsCacheExpired = 1;
 		}
 
@@ -149,13 +151,32 @@ namespace com.tmobile.oss.security.taap.jwe
 				publicJsonWebKeyList = this.GetPublicJsonWebKeyList();
 			}
 
-			jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
-			if (jsonWebKey == null)
-			{
+			if (this.keyPreference == KeyPreference.EC)
+            {
+				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
+				if (jsonWebKey == null)
+				{
+					throw new EncryptionException("Unable to retrieve public EC key from JWK store.");
+				}
+			}
+			else if (this.keyPreference == KeyPreference.RSA)
+            {
 				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA");
 				if (jsonWebKey == null)
 				{
-					throw new EncryptionException("Unable to retrieve public EC or RSA key from JWK store.");
+					throw new EncryptionException("Unable to retrieve public RSA key from JWK store.");
+				}
+			}
+			else if (this.keyPreference == KeyPreference.Any)
+			{
+				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
+				if (jsonWebKey == null)
+				{
+					jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA");
+					if (jsonWebKey == null)
+					{
+						throw new EncryptionException("Unable to retrieve public EC or RSA key from JWK store.");
+					}
 				}
 			}
 

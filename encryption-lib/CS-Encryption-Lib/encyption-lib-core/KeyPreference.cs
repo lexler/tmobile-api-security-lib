@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-
-namespace com.tmobile.oss.security.taap.poptoken.builder
+namespace com.tmobile.oss.security.taap.jwe
 {
-    public interface IPopTokenBuilder
+    public enum KeyPreference
     {
-        DateTime IssuedAt { get; }
-        string Version { get; }
-
-        string Build();
-        DateTime GetExpiration(DateTime issuedAt);
-        string GetUniqueIdentifier();
-        PopTokenBuilder SetEhtsKeyValueMap(HashSet<KeyValuePair<string, string>> ehtsKeyValueMap);
-        PopTokenBuilder SignWith(string privateKeyXmlRsa, string keyPassword = null);
+        Any,
+        RSA,
+        EC
     }
 }

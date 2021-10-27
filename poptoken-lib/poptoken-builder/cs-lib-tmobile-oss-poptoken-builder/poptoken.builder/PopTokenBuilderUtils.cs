@@ -40,24 +40,57 @@ namespace com.tmobile.oss.security.taap.poptoken.builder
         /// Create Rsa Security Key
         /// </summary>
         /// <param name="rsaKeyPKCS8PemOrXml">Rsa Key PKCS8 Pem Or Xml</param>
+        /// <param name="password">Password for Key (Optional)</param>
         /// <returns>RsaSecurityKey</returns>
-        public static RsaSecurityKey CreateRsaSecurityKey(string rsaKeyPKCS8PemOrXml)
+        public static RsaSecurityKey CreateRsaSecurityKey(string rsaKeyPKCS8PemOrXml, string password = null)
         {
             var rsa = RSA.Create();
             rsa.KeySize = 2048;
 
             if (rsaKeyPKCS8PemOrXml.Contains("BEGIN PUBLIC KEY"))
             {
-                var pkcs8PrivateKeyArray = rsaKeyPKCS8PemOrXml.Split(Environment.NewLine);
-                var pkcs8PrivateKeyBytes = Convert.FromBase64String(pkcs8PrivateKeyArray[1]);
-                rsa.ImportSubjectPublicKeyInfo(pkcs8PrivateKeyBytes, out _);
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN PUBLIC KEY-----", "")
+                                                     .Replace("-----END PUBLIC KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var certificateBytes = Convert.FromBase64String(certificate);
+                rsa.ImportSubjectPublicKeyInfo(certificateBytes, out _);
             }
             else if (rsaKeyPKCS8PemOrXml.Contains("BEGIN PRIVATE KEY"))
             {
-                var pkcs8PrivateKeyArray = rsaKeyPKCS8PemOrXml.Split(Environment.NewLine);
-                var pkcs8PrivateKeyBytes = Convert.FromBase64String(pkcs8PrivateKeyArray[1]);
-                rsa.ImportPkcs8PrivateKey(pkcs8PrivateKeyBytes, out _);
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN PRIVATE KEY-----", "")
+                                                     .Replace("-----END PRIVATE KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var certificateBytes = Convert.FromBase64String(certificate);
+                rsa.ImportPkcs8PrivateKey(certificateBytes, out _);
             }
+
+            if (rsaKeyPKCS8PemOrXml.Contains("BEGIN RSA PUBLIC KEY"))
+            {
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN RSA PUBLIC KEY-----", "")
+                                                     .Replace("-----END RSA PUBLIC KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var certificateBytes = Convert.FromBase64String(certificate);
+                rsa.ImportRSAPublicKey(certificateBytes, out _);
+            }
+            else if (rsaKeyPKCS8PemOrXml.Contains("BEGIN RSA PRIVATE KEY"))
+            {
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                                                     .Replace("-----END RSA PRIVATE KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var certificateBytes = Convert.FromBase64String(certificate);
+                rsa.ImportRSAPrivateKey(certificateBytes, out _);
+            }
+
+
+            else if (rsaKeyPKCS8PemOrXml.Contains("BEGIN ENCRYPTED PRIVATE KEY"))
+            {
+                var certificate = rsaKeyPKCS8PemOrXml.Replace("-----BEGIN ENCRYPTED PRIVATE KEY-----", "")
+                                                     .Replace("-----END ENCRYPTED PRIVATE KEY-----", "")
+                                                     .Replace(Environment.NewLine, "");
+                var certificateBytes = Convert.FromBase64String(certificate);
+                rsa.ImportEncryptedPkcs8PrivateKey(password, certificateBytes, out _);
+            }
+
             else if (rsaKeyPKCS8PemOrXml.Contains("<") &&
                      rsaKeyPKCS8PemOrXml.Contains(">"))
             {

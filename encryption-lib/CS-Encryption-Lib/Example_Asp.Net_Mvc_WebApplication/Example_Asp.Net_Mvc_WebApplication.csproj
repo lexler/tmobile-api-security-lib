@@ -7,17 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="TestData\AllPrivate.json" />
     <Content Remove="TestData\ECPrivate.json" />
+    <Content Remove="TestData\JwksAllPublic.json" />
     <Content Remove="TestData\JwksECPublic.json" />
     <Content Remove="TestData\JwksOctPublic.json" />
     <Content Remove="TestData\JwksRSAPublic.json" />
+    <Content Remove="TestData\oAuth2TokenResponse.json" />
     <Content Remove="TestData\OctPrivate.json" />
     <Content Remove="TestData\RSAPrivate.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestData\AllPrivate.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\ECPrivate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\JwksAllPublic.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\JwksECPublic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -27,6 +36,9 @@
     </None>
     <None Include="TestData\JwksRSAPublic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\oAuth2TokenResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\OctPrivate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

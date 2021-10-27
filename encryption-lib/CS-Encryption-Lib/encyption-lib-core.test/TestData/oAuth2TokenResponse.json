@@ -1,0 +1,9 @@
+{
+  "id_token": "id_token",
+  "access_token": "access_token",
+  "expires_in": 1621723,
+  "token_type": "Bearer",
+  "resource": "myResource",
+  "refresh_token": "",
+  "scope": ""
+}

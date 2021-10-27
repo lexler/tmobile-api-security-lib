@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
 {
-    [Route("api/jwks")]
+    [Route("jwks")]
     [ApiController]
     public class JwksController : ControllerBase
     {
@@ -13,7 +13,8 @@ namespace Sample_Asp.Net_Mvc_WebApplication.WebApi
         [HttpGet]
         public async Task GetJsonWebKeyListAsync()
         {
-            var jwksFile = AppContext.BaseDirectory + @"TestData\JwksRSAPublic.json";
+            // To simulate an Jwks server response, return test data from local file
+            var jwksFile = AppContext.BaseDirectory + @"TestData\JwksAllPublic.json";
             var jwksJson = System.IO.File.ReadAllText(jwksFile);
             await Response.WriteAsync(jwksJson);
         }

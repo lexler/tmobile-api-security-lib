@@ -31,11 +31,12 @@ namespace com.tmobile.oss.security.taap.jwe
 	{
 		private static List<JsonWebKey> PublicJsonWebKeyList;
 		private static List<JsonWebKey> PrivateJsonWebKeyList;
-		private static bool IsCacheExpired;
+		private static int IsCacheExpired;
 		private static int JwksServiceCallCount;
-		private static JwksService JwksService;
+		private static IJwksService JwksService;
 
-		private Timer timer;
+		private readonly Timer timer;
+		private readonly KeyPreference keyPreference;
 		private bool isDisposed;
 
 		/// <summary>
@@ -45,9 +46,9 @@ namespace com.tmobile.oss.security.taap.jwe
 		{
 			PublicJsonWebKeyList = new List<JsonWebKey>();
 			PrivateJsonWebKeyList = new List<JsonWebKey>();
-			IsCacheExpired = true;
+			IsCacheExpired = 1;
 
-			JwksService = default(JwksService);
+			JwksService = default;
 			JwksServiceCallCount = 0;
 		}
 
@@ -62,13 +63,20 @@ namespace com.tmobile.oss.security.taap.jwe
 			this.timer.Enabled = false;
 		}
 
-		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, JwksService jwksService, long cacheDurationSeconds) : this()
+		/// <summary>
+		/// Custom Constructor
+		/// </summary>
+		/// <param name="privateJsonWebKeyList">Private JsonWebKey List</param>
+		/// <param name="jwksService">Jwks Service</param>
+		/// <param name="cacheDurationSeconds"></param>
+		public KeyResolver(List<JsonWebKey> privateJsonWebKeyList, IJwksService jwksService, long cacheDurationSeconds, KeyPreference keyPreference = KeyPreference.EC) : this()
 		{
 			PrivateJsonWebKeyList = privateJsonWebKeyList;
 			JwksService = jwksService;
 
 			this.timer.Interval = cacheDurationSeconds * 1000;
-			IsCacheExpired = true;
+			this.keyPreference = keyPreference;
+			IsCacheExpired = 1;
 		}
 
 		/// <summary>
@@ -120,18 +128,16 @@ namespace com.tmobile.oss.security.taap.jwe
 			var publicJsonWebKeyList = new List<JsonWebKey>();
 			var jsonWebKey = default(JsonWebKey);
 
-			if (IsCacheExpired)
+			if (GetIsCacheExpired() == 1)
 			{
-				// Only allow one thread at a time to call the JWKS service
 				if (Interlocked.Increment(ref JwksServiceCallCount) == 1)
 				{
 					try
 					{
-						// Public RSA key
 						publicJsonWebKeyList = await JwksService.GetJsonWebKeyListAsync();
 						this.SetPublicJsonWebKeyList(publicJsonWebKeyList);
 
-						IsCacheExpired = false;
+						Interlocked.Exchange(ref IsCacheExpired, 0);
 						this.timer.Enabled = true;
 					}
 					finally
@@ -145,13 +151,32 @@ namespace com.tmobile.oss.security.taap.jwe
 				publicJsonWebKeyList = this.GetPublicJsonWebKeyList();
 			}
 
-			jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
-			if (jsonWebKey == null)
-			{
+			if (this.keyPreference == KeyPreference.EC)
+            {
+				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
+				if (jsonWebKey == null)
+				{
+					throw new EncryptionException("Unable to retrieve public EC key from JWK store.");
+				}
+			}
+			else if (this.keyPreference == KeyPreference.RSA)
+            {
 				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA");
 				if (jsonWebKey == null)
 				{
-					throw new EncryptionException("Unable to retrieve public EC or RSA key from JWK store.");
+					throw new EncryptionException("Unable to retrieve public RSA key from JWK store.");
+				}
+			}
+			else if (this.keyPreference == KeyPreference.Any)
+			{
+				jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "EC");
+				if (jsonWebKey == null)
+				{
+					jsonWebKey = publicJsonWebKeyList.Find(k => k.Kty == "RSA");
+					if (jsonWebKey == null)
+					{
+						throw new EncryptionException("Unable to retrieve public EC or RSA key from JWK store.");
+					}
 				}
 			}
 
@@ -176,7 +201,7 @@ namespace com.tmobile.oss.security.taap.jwe
 		/// <param name="e">Elapsed Event Args</param>
 		private void OnTimedEvent(Object source, ElapsedEventArgs e)
 		{
-			IsCacheExpired = true;
+			SetIsCacheExpired(1);
 			this.timer.Enabled = false;
 		}
 
@@ -203,6 +228,26 @@ namespace com.tmobile.oss.security.taap.jwe
 
 				this.isDisposed = true;
 			}
+		}
+
+		/// <summary>
+		/// GetIsCacheExpired
+		/// </summary>
+		/// <returns></returns>
+		private int GetIsCacheExpired()
+		{
+			int localIsCacheExpired = 0;
+			Interlocked.Exchange(ref localIsCacheExpired, IsCacheExpired);
+			return localIsCacheExpired;
+		}
+
+		/// <summary>
+		/// SetIsCacheExpired
+		/// </summary>
+		/// <param name="localIsCacheExpired"></param>
+		private void SetIsCacheExpired(int localIsCacheExpired)
+		{
+			Interlocked.Exchange(ref IsCacheExpired, localIsCacheExpired);
 		}
 	}
 }

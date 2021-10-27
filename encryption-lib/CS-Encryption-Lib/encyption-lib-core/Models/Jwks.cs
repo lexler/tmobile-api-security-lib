@@ -15,6 +15,7 @@
  */
 
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 namespace com.tmobile.oss.security.taap.jwe
 {

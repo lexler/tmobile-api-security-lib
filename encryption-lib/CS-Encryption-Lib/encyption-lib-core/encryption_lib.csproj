@@ -8,20 +8,30 @@
     <Authors>Carl Prothman</Authors>
     <Company>T-Mobile</Company>
     <Product>JSON Web Encryption (JWE) Builder</Product>
-    <Description>This component will encrypt your PII data as a JWE token using a public RSA or EC key.</Description>
+    <Description>This component is for field level encryption. It will encrypt your PII data as a JWE token using a public RSA RS256 or EC P-256 key.</Description>
     <Copyright>© 2020 T-Mobile</Copyright>
-    <PackageReleaseNotes>JWE Builder</PackageReleaseNotes>
+    <PackageReleaseNotes>Update all NuGet packages to latest versions.
+Updated component to use .NET Standard 2.1
+Add IOAuth2JwksService interface
+Remove "poptoken" key word in example (not needed)
+Use IJwksService in KeyResolver constructor
+Update POPToken Reference
+Use ApplicationJsonCharsetUtf8 const when creating pop token
+Update POP Token reference
+Only get EC keys that support "P-256" or RSA keys that support "RS256" 
+Correct spelling
+Don't use "Crv" to restrict EC keys</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/tmobile/tmobile-api-security-lib</PackageProjectUrl>
     <PackageIcon>T-Mobile.png</PackageIcon>
     <RepositoryUrl>https://github.com/cprothm1/tmobile-api-security-lib</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <NeutralLanguage />
-    <PackageTags>JWE, RSA, RSA_OAEP_256, A256GCM</PackageTags>
+    <PackageTags>JWE, RSA, RSA_OAEP_256, A256GCM, EC,P-256, RS256</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>1.0.4</Version>
+    <Version>1.0.12</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.12.0</AssemblyVersion>
+    <FileVersion>1.0.12.0</FileVersion>
     <ApplicationIcon>T-Mobile.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -42,13 +52,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="com.tmobile.oss.security.taap.poptoken.builder" Version="1.0.10" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="jose-jwt" Version="3.0.0" />
+    <PackageReference Include="jose-jwt" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
   </ItemGroup>
 
   <ItemGroup>

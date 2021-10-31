@@ -22,8 +22,6 @@
     │
     └── encryption-lib                                       # Encryption (JWE) Lib Parent Directory
         └── C#-Encryption-Lib                                # C# Encryption Lib
-            ├── encyption-lib 				     # C# Encryption Lib .NET 4.8 Class Library
-            ├── encyption-lib.test 			     # C# Encryption Lib .NET 4.8 MS Test
             ├── encyption-lib-core                           # C# Encryption Lib .NET Core 3.1 Standard Library 2.0
             └── encyption-lib-core.test                      # C# Encryption Lib .NET Core 3.1 MS Test
 ```

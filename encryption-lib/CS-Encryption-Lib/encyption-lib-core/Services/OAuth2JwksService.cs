@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2020 T-Mobile US, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,14 +94,16 @@ namespace com.tmobile.oss.security.taap.jwe
         {
             var userIdPassword = string.Concat(_oAuthClientKey, ":", _oAuthClientSecret);
             var userIdPasswordBytes = Encoding.UTF8.GetBytes(userIdPassword);
-            var authorization = Convert.ToBase64String(userIdPasswordBytes);
+            var authorization = "Basic " + Convert.ToBase64String(userIdPasswordBytes);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, _oAuthUri.PathAndQuery);
-            httpRequestMessage.Headers.Add(PopEhtsKeyEnum.Authorization.GetDescription(), $"Basic {authorization}");
+            httpRequestMessage.Headers.Add(PopEhtsKeyEnum.Authorization.GetDescription(), authorization);
 
             if (_popTokenBuilder != null)
             {
-                string popToken = CreatePopToken(authorization);
+                string popToken = CreatePopToken(authorization, _oAuthUri.PathAndQuery, HttpMethod.Post);
+                httpRequestMessage.Headers.Add("X-Authorization", popToken);
+            }
                 httpRequestMessage.Headers.Add("X-Authorization", popToken);
             }
 
@@ -126,6 +128,12 @@ namespace com.tmobile.oss.security.taap.jwe
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, _jwkUrl.PathAndQuery);
             httpRequestMessage.Headers.Add(PopEhtsKeyEnum.Authorization.GetDescription(), $"Bearer {accessToken}");
 
+            if (_popTokenBuilder != null)
+            {
+                string popToken = CreatePopToken($"Bearer {accessToken}", _jwkUrl.PathAndQuery, HttpMethod.Get);
+                httpRequestMessage.Headers.Add("X-Authorization", popToken);
+            }
+
             var httpResponseMessage = await _jwksServiceHttpClient.SendAsync(httpRequestMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
 
@@ -141,16 +149,21 @@ namespace com.tmobile.oss.security.taap.jwe
         /// </summary>
         /// <param name="authorization"></param>
         /// <returns></returns>
-        private string CreatePopToken(string authorization)
+        private string CreatePopToken(string authorization, string uri, HttpMethod method)
         {
-            var dictionary = new Dictionary<string, string>
+            var dictionary = new Dictionary<string, string>();
+            if (method == HttpMethod.Post)
             {
-                { PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Post.GetDescription() },
-                { PopEhtsKeyEnum.Uri.GetDescription(), _jwkUrl.PathAndQuery },
-                { PopEhtsKeyEnum.CacheControl.GetDescription(), PopEhtsKeyEnum.NoCache.GetDescription() },
-                { PopEhtsKeyEnum.ContentType.GetDescription(), PopEhtsKeyEnum.ApplicationJsonCharsetUtf8.GetDescription() },
-                { PopEhtsKeyEnum.Authorization.GetDescription(), authorization }
-            };
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Post.GetDescription());
+            }
+            else if(method == HttpMethod.Get)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Get.GetDescription());
+            }
+
+            dictionary.Add(PopEhtsKeyEnum.Uri.GetDescription(), uri);
+            dictionary.Add(PopEhtsKeyEnum.Authorization.GetDescription(), authorization);
+
             var hashMapKeyValuePair = dictionary.Set();
 
             return _popTokenBuilder.SetEhtsKeyValueMap(hashMapKeyValuePair)

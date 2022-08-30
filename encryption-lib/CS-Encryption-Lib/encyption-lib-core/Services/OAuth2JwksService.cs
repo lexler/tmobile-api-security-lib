@@ -104,8 +104,6 @@ namespace com.tmobile.oss.security.taap.jwe
                 string popToken = CreatePopToken(authorization, _oAuthUri.PathAndQuery, HttpMethod.Post);
                 httpRequestMessage.Headers.Add("X-Authorization", popToken);
             }
-                httpRequestMessage.Headers.Add("X-Authorization", popToken);
-            }
 
             var httpResponseMessage = await _jwksServiceHttpClient.SendAsync(httpRequestMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
@@ -159,6 +157,26 @@ namespace com.tmobile.oss.security.taap.jwe
             else if(method == HttpMethod.Get)
             {
                 dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Get.GetDescription());
+            }
+            else if (method == HttpMethod.Put)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Put.GetDescription());
+            }
+            else if (method == HttpMethod.Patch)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Patch.GetDescription());
+            }
+            else if (method == HttpMethod.Head)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Head.GetDescription());
+            }
+            else if (method == HttpMethod.Options)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Options.GetDescription());
+            }
+            else if (method == HttpMethod.Trace)
+            {
+                dictionary.Add(PopEhtsKeyEnum.HttpMethod.GetDescription(), PopEhtsKeyEnum.Trace.GetDescription());
             }
 
             dictionary.Add(PopEhtsKeyEnum.Uri.GetDescription(), uri);

@@ -210,7 +210,7 @@ func (pt *PoPToken) reqAndEHTSToEDTS(req *http.Request, ehts string) (string, er
 		default:
 			// Concatenate the header values
 			var fullV string
-			_, fullV = concatHeaders(k, req.Header[k], nil)
+			_, fullV = concatHeaders(k, req.Header.Values(k), nil)
 
 			pt.debugf("reqAndEHTSToEDTS: Processing header %q: %q", k, fullV)
 

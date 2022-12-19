@@ -52,7 +52,7 @@ func wrapInvalidToken(e error) error {
 
 // Error implements the error interface and returns the error string.
 func (e InvalidToken) Error() string {
-	return "Pop token is not valid"
+	return "PoP token is not valid"
 }
 
 // FullError returns the full error, including the embedded error.

@@ -26,7 +26,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/uuid"
 	jwt "gopkg.in/dgrijalva/jwt-go.v3"
 )
 
@@ -167,7 +166,7 @@ func (pt *PoPToken) reqToEHTSAndEDTS(req *http.Request) (string, string, error) 
 	}
 
 	ehts := strings.Join(keys, ";")
-	edts := hashEncode(valueHash)
+	edts := hashEncodePatch(valueHash)
 
 	pt.debugf("reqToEHTSAndEDTS: Computed ehts: %q", ehts)
 	pt.debugf("reqToEHTSAndEDTS: Computed edts: %q", edts)
@@ -218,7 +217,7 @@ func (pt *PoPToken) reqAndEHTSToEDTS(req *http.Request, ehts string) (string, er
 		}
 	}
 
-	edts := hashEncode(valueHash)
+	edts := hashEncodePatch(valueHash)
 
 	pt.debugf("reqAndEHTSToEDTS: Computed edts: %q", edts)
 	return edts, nil
@@ -241,14 +240,14 @@ func (pt *PoPToken) Build(req *http.Request) (string, error) {
 
 	// Prepare the PoP token with all claims specified by the PoP
 	// token standard
-	now := time.Now()
+	now := timeNow()
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"v":       1,
 		ehtsClaim: ehts,
 		edtsClaim: edts,
 		"iat":     now.Unix(),
 		"exp":     now.Add(pt.ttl).Unix(),
-		"jti":     uuid.New().String(),
+		"jti":     uuidNew().String(),
 	})
 
 	// Generate the signed PoP token
@@ -298,7 +297,7 @@ func (pt *PoPToken) Verify(req *http.Request) error {
 	pt.debugf("Verify: Verifying token %q", tok)
 
 	// Parse it
-	token, err := jwt.Parse(tok, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwtParse(tok, func(token *jwt.Token) (interface{}, error) {
 		return pt.publicKey, nil
 	})
 	if err != nil {

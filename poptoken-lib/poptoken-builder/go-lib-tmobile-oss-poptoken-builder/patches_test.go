@@ -21,10 +21,10 @@ import (
 	"testing"
 	"time"
 
+	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/klmitch/patcher"
 	"github.com/stretchr/testify/mock"
-	jwt "gopkg.in/dgrijalva/jwt-go.v3"
 )
 
 type mockPatches struct {
@@ -75,8 +75,8 @@ func (m *mockPatches) uuidNew() uuid.UUID {
 	return uuid.UUID{}
 }
 
-func (m *mockPatches) jwtParse(tokenString string, keyFunc jwt.Keyfunc) (*jwt.Token, error) {
-	args := m.Called(tokenString, keyFunc)
+func (m *mockPatches) jwtParse(tokenString string, keyFunc jwt.Keyfunc, opts ...jwt.ParserOption) (*jwt.Token, error) {
+	args := m.Called(tokenString, keyFunc, opts)
 
 	if tmp := args.Get(0); tmp != nil {
 		return tmp.(*jwt.Token), args.Error(1)

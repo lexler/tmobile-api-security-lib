@@ -24,7 +24,7 @@ import (
 	"net/http"
 	"strings"
 
-	jwt "gopkg.in/dgrijalva/jwt-go.v3"
+	jwt "github.com/golang-jwt/jwt/v4"
 )
 
 // concatHeaders handles the proper concatenation of headers appearing

@@ -19,8 +19,8 @@ package poptoken
 import (
 	"time"
 
+	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
-	jwt "gopkg.in/dgrijalva/jwt-go.v3"
 )
 
 // Functions to be patched out for testing.  These are internal

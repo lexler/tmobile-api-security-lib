@@ -23,9 +23,9 @@ import (
 	"net/http"
 	"testing"
 
+	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	jwt "gopkg.in/dgrijalva/jwt-go.v3"
 )
 
 func TestConcatHeadersBase(t *testing.T) {

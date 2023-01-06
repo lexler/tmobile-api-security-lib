@@ -36,10 +36,7 @@ import (
 // This function is implemented in the fashion it is in order to allow
 // it to be changed out to match the expectations of the applications
 // that are expecting to receive PoP tokens.  This implementation
-// assumes compliance with RFC 9110, but it is not clear that this is
-// the correct assumption; so by centralizing this logic into one
-// place, it becomes easier to update should that assumption prove
-// incorrect.
+// assumes compliance with RFC 9110.
 func concatHeaders(name string, values, keys []string) ([]string, string) {
 	// Note: this implementation assumes standards-compliant handling
 	// of duplicated headers, with ", " as the joining string; see

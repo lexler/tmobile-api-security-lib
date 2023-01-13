@@ -1,4 +1,4 @@
-module github.com/tmobile/tmobile-api-security-lib/poptoken-builder/go-lib-tmobile-oss-poptoken-builder
+module github.com/tmobile/tmobile-api-security-lib/poptoken-lib/poptoken-builder/go-lib-tmobile-oss-poptoken-builder
 
 go 1.18
 

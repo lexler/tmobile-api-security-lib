@@ -1,4 +1,4 @@
-﻿**Proof Of Possession (PoP) Token Builder 
+**Proof Of Possession (PoP) Token Builder 
 using .NET Standard 2.1**
 
 **Implementation Details**

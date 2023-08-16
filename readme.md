@@ -1,4 +1,4 @@
-﻿# T-Mobile API Security Libraries
+# T-Mobile API Security Libraries
 
 ## Overview
 
